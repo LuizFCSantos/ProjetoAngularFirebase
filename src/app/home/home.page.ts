@@ -8,13 +8,63 @@ import { Component } from '@angular/core';
 export class HomePage {
 
   constructor() {
-    this.getData();
+    this.getFuncionarios();
+    this.remover();
   }
 
-  getData(){
-    fetch('http://localhost/api/usuario/listar-todos')
-    // .then(T => T.json())
-    .then(console.log)
+  isLoading: boolean = false;
+  funcionarios: any;
+
+  getFuncionarios(){
+    this.isLoading = true;
+	
+		let funcionario = { CodFun: '123' };
+
+    fetch('http://localhost/api/funcionarios/listar_funcionarios.php',
+			{
+			  method: 'POST',
+			  headers: {
+			    'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify(funcionario)
+			}
+		)
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
+  }
+
+  remover(){
+    this.isLoading = true;
+
+		let funcionario = { CodFun: '123' };
+
+    fetch('http://localhost/api/funcionarios/remover_funcionario.php',
+			{
+			  method: 'DELETE',
+			  headers: {
+			    'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify(funcionario)
+			}
+		)
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
   }
 
 }

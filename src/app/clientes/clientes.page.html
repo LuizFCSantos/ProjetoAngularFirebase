@@ -1,14 +1,21 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>clientes</ion-title>
+  <ion-toolbar class="">
+    <ion-title>Funcionarios</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-row>
-    <ion-col seze="12">
-      <ion-button (click)="this.getClientes()">Listar Clientes</ion-button>
-      <ion-spinner *ngIf="this.isLoading"></ion-spinner>
+    <ion-col size="12" class="ion-justify-content-center">
+      
+      <ion-button fill="clear">Nome</ion-button>
+      <ion-button fill="clear">Cargo</ion-button>
+      <ion-button fill="clear">Cidade</ion-button>
+      <ion-button fill="clear">Telefone</ion-button>
+
+    </ion-col>
+    <ion-col>
+      <label for="">Nome: Cargo: Cidade: Telefone:</label>
     </ion-col>
   </ion-row>
 </ion-content>
