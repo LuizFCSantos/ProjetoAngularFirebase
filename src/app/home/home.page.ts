@@ -41,6 +41,7 @@ export class HomePage {
     })
   }
 
+  
   remover(){
     this.isLoading = true;
 
