@@ -18,7 +18,7 @@ export class ClientesPage {
   getFuncionarios(){
     this.isLoading = true;
 	
-		let funcionario = { CodFun: '123', 
+		let funcionario = { CodFun: '', 
                         Sobrenome: '',
                         Nome: '',
                         Cargo: '',
@@ -31,7 +31,7 @@ export class ClientesPage {
                         Salario: ''
   };
 
-    fetch('http://localhost/api/funcionarios/listar_funcionarios.php',
+    fetch('http://localhost/API_Atividade/funcionarios/listar_funcionarios.php',
 			{
 			  method: 'POST',
 			  headers: {
