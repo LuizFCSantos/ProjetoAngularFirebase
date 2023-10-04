@@ -9,7 +9,6 @@ export class ClientesPage {
  
   constructor() {
     this.getFuncionarios();
-    this.remover();
   }
 
   isLoading: boolean = false;
@@ -28,10 +27,38 @@ export class ClientesPage {
                         CEP: '',
                         Pais: '',
                         Fone: '',
-                        Salario: ''
-  };
+                        Salario: '' };
 
     fetch('http://localhost/API_Atividade/funcionarios/listar_funcionarios.php',
+			{
+			  method: 'POST',
+			  headers: {
+			    'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify(funcionario)
+			}
+		)
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      this.funcionarios = response.funcionarios
+      console.log(this.funcionarios)
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
+  }
+
+  
+  remover(id:any){
+    this.isLoading = true;
+
+		let funcionario = { CodFun: id };
+
+    fetch('http://localhost/API_Atividade/funcionarios/remover_funcionarios.php',
 			{
 			  method: 'POST',
 			  headers: {
@@ -49,27 +76,28 @@ export class ClientesPage {
     })
     .finally(()=>{
       this.isLoading = false;
+      this.getFuncionarios()
     })
   }
 
-  
-  remover(){
+  pesquisa:any={ "filtro": '' };
+
+  setPesquisa(){
     this.isLoading = true;
 
-		let funcionario = { CodFun: '123' };
-
-    fetch('http://localhost/api/funcionarios/remover_funcionario.php',
+    fetch('http://localhost/API_Atividade/funcionarios/consulta_func_'+this.radio+'.php',
 			{
-			  method: 'DELETE',
+			  method: 'POST',
 			  headers: {
 			    'Content-Type': 'application/json',
 			  },
-			  body: JSON.stringify(funcionario)
+			  body: JSON.stringify(this.pesquisa)
 			}
 		)
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      this.funcionarios = response.funcionarios;
     })
     .catch(erro => {
       console.log(erro);
@@ -79,6 +107,18 @@ export class ClientesPage {
     })
   }
 
+  radio:any;
+
+  setFiltro(objeto:any){
+    console.log(objeto.detail.value)
+    
+    let filtro = objeto.detail.value;
+    let url;
+    if (filtro == 'nome') {
+      url = 'consulta_func_nome.php';
+    }
+    fetch('http://localhost/API_Atividade/funcionarios/consulta_func_nome.php' + url);
+  }
 }
 
 

@@ -1,39 +1,81 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="">
-    <ion-title>Funcionarios</ion-title>
+    <ion-row>
+      <ion-col size="2">
+        <ion-title>Funcionarios</ion-title>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button>Inserir</ion-button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-row>
-    <ion-col size="6" size-lg="12" class="ion-justify-content-center">
-
-      <ion-row> 
+    <ion-col size="4">
       <ion-item>
-        <ion-input></ion-input>
-      </ion-item>       
-      <ion-item>
-        <ion-label>Nome</ion-label>
-        <ion-checkbox id="check" checked value="1"></ion-checkbox>
+        <ion-searchbar animated="true" placeholder="Pesquisar..." (keyup)="setPesquisa()" [(ngModel)]="pesquisa.filtro"></ion-searchbar>
       </ion-item>
-      <ion-item>
-        <ion-label>Cargo</ion-label>
-        <ion-checkbox id="check" value="2"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cidade</ion-label>
-        <ion-checkbox id="check" value="3"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Telefone</ion-label>
-        <ion-checkbox id="check" value="4"></ion-checkbox>
-      </ion-item>
-      </ion-row>
-
     </ion-col>
-    <ion-col>
-      <label for="">Nome: Cargo: Cidade: Telefone:</label>
-      <ng-container *ngFor="let funcionario">{{ this.getFuncionarios }}</ng-container>
+    <ion-col size="8">
+      <ion-row>
+        <ion-col>
+          <ion-radio-group [(ngModel)]="radio">
+            <ion-item>
+              <ion-radio value="nome" justify="start">Nome</ion-radio>
+              <ion-radio value="cargo" justify="start">Cargo</ion-radio>
+              <ion-radio value="cidade" justify="start">Cidade</ion-radio>
+              <ion-radio value="telefone" justify="start">Telefone</ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
     </ion-col>
   </ion-row>
+      
+  
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="12">
+      <ion-list>
+          <ng-container *ngFor="let funcionario of this.funcionarios">
+            <ion-item>
+              <ion-label>
+                Codigo: {{ funcionario.CodFun }}
+              </ion-label>
+              <ion-label>
+                Nome: {{ funcionario.Nome }} {{ funcionario.Sobrenome }}
+              </ion-label>
+              <ion-label>
+                Cargo: {{ funcionario.Cargo }}
+              </ion-label>
+              <ion-label>
+                DataNasc: {{ funcionario.DataNasc }}
+              </ion-label>
+              <ion-label>
+                Endereço: {{ funcionario.Endereco }}
+              </ion-label>
+              <ion-label>
+                Cidade: {{ funcionario.Cidade }}
+              </ion-label>
+              <ion-label>
+                CEP: {{ funcionario.CEP }}
+              </ion-label>
+              <ion-label>
+                Pais: {{ funcionario.Pais }}
+              </ion-label>
+              <ion-label>
+                Fone: {{ funcionario.Fone }}
+              </ion-label>
+              <ion-label>
+                Salario: {{ funcionario.Salario }}
+              </ion-label>
+              <ion-icon name="trash-outline" (click)="remover(funcionario.CodFun)"></ion-icon>
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-item>
+          </ng-container>
+      </ion-list>
+      </ion-col>
+  </ion-row>
+
 </ion-content>
