@@ -1,11 +1,86 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="">
     <ion-row>
-      <ion-col size="2">
+      <ion-col size="2" class="ion-padding">
         <ion-title>Funcionarios</ion-title>
       </ion-col>
       <ion-col size="2">
-        <ion-button>Inserir</ion-button>
+          <ion-button expand="block" (click)="setOpen(true)" color="medium">Inserir</ion-button>
+          <ion-modal [isOpen]="isModalOpen">
+            <ng-template>
+              <ion-header>
+                <ion-toolbar>
+                  <ion-title>Cadastrar usuario</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="setOpen(false)">Fechar</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content class="ion-padding">
+                
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label>
+                      Código:<ion-input type="text" [(ngModel)]="inserir.CodFun"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Sobrenome:<ion-input type="text" [(ngModel)]="inserir.Sobrenome"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Nome:<ion-input type="text" [(ngModel)]="inserir.Nome"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Cargo:<ion-input type="text" [(ngModel)]="inserir.Cargo"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      DataNasc:<ion-input type="date" [(ngModel)]="inserir.DataNasc"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Endereço:<ion-input type="text" [(ngModel)]="inserir.Endereco"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Cidade:<ion-input type="text" [(ngModel)]="inserir.Cidade"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      CEP:<ion-input type="text" [(ngModel)]="inserir.CEP"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Pais:<ion-input type="text" [(ngModel)]="inserir.Pais"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Telefone:<ion-input type="text" [(ngModel)]="inserir.Fone"></ion-input>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      Salario:<ion-input type="text" [(ngModel)]="inserir.Salario"></ion-input>
+                    </ion-label>
+                  </ion-item>
+               
+                    <ion-button expand="block" color="medium" (click)="setInserir()">Enviar</ion-button>
+          
+              </ion-col>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
       </ion-col>
     </ion-row>
   </ion-toolbar>
@@ -70,12 +145,83 @@
               <ion-label>
                 Salario: {{ funcionario.Salario }}
               </ion-label>
-              <ion-icon name="trash-outline" (click)="remover(funcionario.CodFun)"></ion-icon>
-              <ion-icon name="create-outline"></ion-icon>
+              <ion-icon name="trash-outline" (click)="remover(funcionario.CodFun)" color="danger" class="ion-padding" size="large"></ion-icon>
+              <ion-icon name="create-outline" id="open-modal" color="warning" class="ion-padding" size="large"></ion-icon>
             </ion-item>
           </ng-container>
       </ion-list>
       </ion-col>
   </ion-row>
+  <ion-content class="ion-padding">
+    <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+      <ng-template>
+        <h2 class="ion-padding">Atualizar Usuarios</h2>
+
+        <ion-content class="ion-padding">
+                
+          <ion-col size="4">
+            <ion-item>
+              <ion-label>
+                Código:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Sobrenome:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Nome:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Cargo:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                DataNasc:<ion-input type="date"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Endereço:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Cidade:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                CEP:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Pais:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Telefone:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                Salario:<ion-input type="text"></ion-input>
+              </ion-label>
+            </ion-item>
+         
+              <ion-button expand="block" color="medium">Atualizar</ion-button>
+    
+        </ion-col>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </ion-content>
 
 </ion-content>
