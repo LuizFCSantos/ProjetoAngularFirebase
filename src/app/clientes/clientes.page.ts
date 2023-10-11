@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-clientes',
@@ -8,40 +9,55 @@ import { Component, OnInit } from '@angular/core';
 export class ClientesPage {
  
   isModalOpen = false;
+  isOpenModal = false;
+
+  async canDismiss(data?: any, role?: string) {
+    return role !== 'gesture';
+  }
 
   constructor() {
     this.getFuncionarios();
   }
 
+
   isLoading: boolean = false;
   funcionarios: any;
-  inserir: any;
-  // atualizar: any;
+  atualizar: any;
+  limpar: any;
+
+clear(){
+  this.inserir = {
+    CodFun: '', 
+                  Sobrenome: '',
+                  Nome: '',
+                  Cargo: '',
+                  DataNasc: '',
+                  Endereco: '',
+                  Cidade: '',
+                  CEP: '',
+                  Pais: '',
+                  Fone: '',
+                  Salario: '' 
+  };
+}
+  inserir:any = { CodFun: '', 
+                  Sobrenome: '',
+                  Nome: '',
+                  Cargo: '',
+                  DataNasc: '',
+                  Endereco: '',
+                  Cidade: '',
+                  CEP: '',
+                  Pais: '',
+                  Fone: '',
+                  Salario: '' 
+                  };
+
 
   getFuncionarios(){
     this.isLoading = true;
-	
-		let funcionario = { CodFun: '', 
-                        Sobrenome: '',
-                        Nome: '',
-                        Cargo: '',
-                        DataNasc: '',
-                        Endereco: '',
-                        Cidade: '',
-                        CEP: '',
-                        Pais: '',
-                        Fone: '',
-                        Salario: '' };
 
-    fetch('http://localhost/API_Atividade/funcionarios/listar_funcionarios.php',
-			{
-			  method: 'POST',
-			  headers: {
-			    'Content-Type': 'application/json',
-			  },
-			  body: JSON.stringify(funcionario)
-			}
-		)
+    fetch('http://localhost/API_Atividade/funcionarios/listar_funcionarios.php')
     .then(response => response.json())
     .then(response => {
       console.log(response);
@@ -58,32 +74,18 @@ export class ClientesPage {
   
   setInserir(){
     this.isLoading = true;
-	
-		let inserir = { CodFun: '', 
-                    Sobrenome: '',
-                    Nome: '',
-                    Cargo: '',
-                    DataNasc: '',
-                    Endereco: '',
-                    Cidade: '',
-                    CEP: '',
-                    Pais: '',
-                    Fone: '',
-                    Salario: '' };
-
     fetch('http://localhost/API_Atividade/funcionarios/inserir_funcionario.php',
 			{
 			  method: 'POST',
 			  headers: {
 			    'Content-Type': 'application/json',
 			  },
-			  body: JSON.stringify(inserir)
+			  body: JSON.stringify(this.inserir)
 			}
 		)
     .then(response => response.json())
     .then(response => {
       console.log(response);
-      this.inserir = response.inserir
       console.log(this.inserir)
     })
     .catch(erro => {
@@ -94,45 +96,60 @@ export class ClientesPage {
       this.getFuncionarios()
     })
   }
-  // getAtualizar(){
-  //   this.isLoading = true;
-	
-	// 	let atualizar = { CodFun: '', 
-  //                   Sobrenome: '',
-  //                   Nome: '',
-  //                   Cargo: '',
-  //                   DataNasc: '',
-  //                   Endereco: '',
-  //                   Cidade: '',
-  //                   CEP: '',
-  //                   Pais: '',
-  //                   Fone: '',
-  //                   Salario: '' };
+  
+  getAtualizar(){
+    this.isLoading = true;
+     fetch('http://localhost/API_Atividade/funcionarios/atualizar_funcionario.php',
+	 		{
+	 		  method: 'POST',
+	 		  headers: {
+	 		    'Content-Type': 'application/json',
+	 		  },
+	 		  body: JSON.stringify(this.inserir)
+	 		}
+	 	)
+     .then(response => response.json())
+     .then(response => {
+       console.log(response);
+       console.log(this.inserir)
+     })
+     .catch(erro => {
+       console.log(erro);
+     })
+     .finally(()=>{
+       this.isLoading = false;
+       this.getFuncionarios()
+     })
+   }
 
-  //   fetch('http://localhost/API_Atividade/funcionarios/atualizar_funcionario.php',
-	// 		{
-	// 		  method: 'POST',
-	// 		  headers: {
-	// 		    'Content-Type': 'application/json',
-	// 		  },
-	// 		  body: JSON.stringify(atualizar)
-	// 		}
-	// 	)
-  //   .then(response => response.json())
-  //   .then(response => {
-  //     console.log(response);
-  //     this.atualizar = response.atualizar
-  //     console.log(this.atualizar)
-  //   })
-  //   .catch(erro => {
-  //     console.log(erro);
-  //   })
-  //   .finally(()=>{
-  //     this.isLoading = false;
-  //     this.getFuncionarios()
-  //   })
-  // }
-
+  Pegar(id:any){
+    this.isLoading = true;
+     fetch('http://localhost/API_Atividade/funcionarios/pegar_funcionario.php',
+	 		{
+	 		  method: 'POST',
+	 		  headers: {
+	 		    'Content-Type': 'application/json',
+	 		  },
+	 		  body: JSON.stringify({
+          'CodFun':id
+        })
+	 		}
+	 	)
+     .then(response => response.json())
+     .then(response => {
+       console.log(response);
+       this.setOpenModal(true)
+       this.inserir = response['funcionarios'][0]
+       console.log(this.inserir)
+     })
+     .catch(erro => {
+       console.log(erro);
+     })
+     .finally(()=>{
+       this.isLoading = false;
+       this.getFuncionarios()
+     })
+   }
   
   remover(id:any){
     this.isLoading = true;
@@ -202,12 +219,15 @@ export class ClientesPage {
   }
   
   setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+    this.isModalOpen = !this.isModalOpen;
+    this.clear()
   }
 
-  setOpenModal(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  setOpenModal(Open: boolean) {
+    this.isOpenModal = !this.isOpenModal;
+    this.clear()
   }
+  
 }
 
 

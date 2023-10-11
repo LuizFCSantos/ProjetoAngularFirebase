@@ -1,12 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="">
     <ion-row>
-      <ion-col size="2" class="ion-padding">
+      <ion-col size="2" class="ion-padding ion-hide-sm-down" >
         <ion-title>Funcionarios</ion-title>
       </ion-col>
-      <ion-col size="2">
-          <ion-button expand="block" (click)="setOpen(true)" color="medium">Inserir</ion-button>
-          <ion-modal [isOpen]="isModalOpen">
+      <ion-col size="12" size-lg="2">
+          <ion-button expand="block" (click)="setOpen(true)" color="medium"  class="ion-hide-sm-down">Inserir</ion-button>
+          <ion-button expand="block" (click)="setOpen(true)" color="medium" class="ion-hide-sm-up">Inserir Funcionario</ion-button>
+          <ion-modal [canDismiss]="canDismiss" [isOpen]="isModalOpen">
             <ng-template>
               <ion-header>
                 <ion-toolbar>
@@ -19,11 +20,6 @@
               <ion-content class="ion-padding">
                 
                 <ion-col size="4">
-                  <ion-item>
-                    <ion-label>
-                      Código:<ion-input type="text" [(ngModel)]="inserir.CodFun"></ion-input>
-                    </ion-label>
-                  </ion-item>
                   <ion-item>
                     <ion-label>
                       Sobrenome:<ion-input type="text" [(ngModel)]="inserir.Sobrenome"></ion-input>
@@ -88,14 +84,14 @@
 
 <ion-content [fullscreen]="true">
   <ion-row>
-    <ion-col size="4">
+    <ion-col size="12" size-lg="4">
       <ion-item>
-        <ion-searchbar animated="true" placeholder="Pesquisar..." (keyup)="setPesquisa()" [(ngModel)]="pesquisa.filtro"></ion-searchbar>
+        <ion-searchbar animated="true" placeholder="Pesquisar..." (keyup)="setPesquisa()" (ionClear)="this.getFuncionarios()" [(ngModel)]="pesquisa.filtro"></ion-searchbar>
       </ion-item>
     </ion-col>
-    <ion-col size="8">
+    <ion-col size="12" size-lg="8">
       <ion-row>
-        <ion-col>
+        <ion-col size="12">
           <ion-radio-group [(ngModel)]="radio">
             <ion-item>
               <ion-radio value="nome" justify="start">Nome</ion-radio>
@@ -114,7 +110,7 @@
     <ion-col size="12">
       <ion-list>
           <ng-container *ngFor="let funcionario of this.funcionarios">
-            <ion-item>
+            <ion-item class="ion-hide-sm-down">
               <ion-label>
                 Codigo: {{ funcionario.CodFun }}
               </ion-label>
@@ -146,82 +142,104 @@
                 Salario: {{ funcionario.Salario }}
               </ion-label>
               <ion-icon name="trash-outline" (click)="remover(funcionario.CodFun)" color="danger" class="ion-padding" size="large"></ion-icon>
-              <ion-icon name="create-outline" id="open-modal" color="warning" class="ion-padding" size="large"></ion-icon>
+              <ion-icon name="create-outline" (click)="Pegar(funcionario.CodFun)" color="warning" class="ion-padding" size="large"></ion-icon>
             </ion-item>
+
+            
+            <ion-item class="ion-hide-sm-up">
+            <ion-col size="12">
+              <ion-label>
+                Codigo: {{ funcionario.CodFun }}
+              </ion-label>
+              &nbsp;
+              <ion-label>
+                Nome: {{ funcionario.Nome }}
+              </ion-label>
+              &nbsp;
+              <ion-label>
+                Cargo: {{ funcionario.Cargo }}
+              </ion-label>
+              &nbsp;
+            <ion-icon name="trash-outline" (click)="remover(funcionario.CodFun)" color="danger" class="ion-padding" size="large"></ion-icon>
+            <ion-icon name="create-outline" (click)="Pegar(funcionario.CodFun)" color="warning" class="ion-padding" size="large"></ion-icon>
+          </ion-col>
+            </ion-item>
+
+
           </ng-container>
       </ion-list>
       </ion-col>
   </ion-row>
-  <ion-content class="ion-padding">
-    <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+
+    <ion-modal [canDismiss]="canDismiss" [isOpen]="isOpenModal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
       <ng-template>
+        <ion-toolbar>
         <h2 class="ion-padding">Atualizar Usuarios</h2>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpenModal(false)">Fechar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
 
         <ion-content class="ion-padding">
                 
           <ion-col size="4">
             <ion-item>
               <ion-label>
-                Código:<ion-input type="text"></ion-input>
+                Sobrenome:<ion-input type="text" [(ngModel)]="inserir.Sobrenome"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Sobrenome:<ion-input type="text"></ion-input>
+                Nome:<ion-input type="text" [(ngModel)]="inserir.Nome"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Nome:<ion-input type="text"></ion-input>
+                Cargo:<ion-input type="text" [(ngModel)]="inserir.Cargo"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Cargo:<ion-input type="text"></ion-input>
+                DataNasc:<ion-input type="date" [(ngModel)]="inserir.DataNasc"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                DataNasc:<ion-input type="date"></ion-input>
+                Endereço:<ion-input type="text" [(ngModel)]="inserir.Endereco"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Endereço:<ion-input type="text"></ion-input>
+                Cidade:<ion-input type="text" [(ngModel)]="inserir.Cidade"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Cidade:<ion-input type="text"></ion-input>
+                CEP:<ion-input type="text" [(ngModel)]="inserir.CEP"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                CEP:<ion-input type="text"></ion-input>
+                Pais:<ion-input type="text" [(ngModel)]="inserir.Pais"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Pais:<ion-input type="text"></ion-input>
+                Telefone:<ion-input type="text" [(ngModel)]="inserir.Fone"></ion-input>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                Telefone:<ion-input type="text"></ion-input>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>
-                Salario:<ion-input type="text"></ion-input>
+                Salario:<ion-input type="text" [(ngModel)]="inserir.Salario"></ion-input>
               </ion-label>
             </ion-item>
          
-              <ion-button expand="block" color="medium">Atualizar</ion-button>
+              <ion-button expand="block" color="medium" (click)="getAtualizar()">Atualizar</ion-button>
     
         </ion-col>
         </ion-content>
       </ng-template>
     </ion-modal>
-  </ion-content>
+ 
 
 </ion-content>
